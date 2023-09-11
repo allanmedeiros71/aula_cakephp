@@ -1,0 +1,40 @@
+version: '3'
+# define all services
+services:
+  # The php service is used by us to run commands on PHP 
+  # (bin/cake, for instance since it is a cakephp application);
+  cakephp:
+    # we want to use the image which is build from our Dockerfile
+    build: .
+    ports:
+      - "8765:8765"
+    container_name: aulacakephp-cakephp
+    # we depending on the mysql backend
+    depends_on:
+      - mysql
+    # we mount the working dir into the container, handy for development 
+    volumes:
+      - .:/var/www/html/
+    environment:
+      - SECURITY_SALT=ashjg23697sds97139871298ashk  
+      - MYSQL_URL=mysql
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=root
+  mysql:
+    # we use the mysql base image, version 5.6.36
+    image: mysql:5.7
+    container_name: mysql
+    restart: no
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "aulacakephp"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
+    volumes:
+      - /home/allan/mysql/data:/var/lib/mysql
+volumes:
+    mysql_data:

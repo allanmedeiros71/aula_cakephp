@@ -1,0 +1,72 @@
+# Fontes:
+# https://stackoverflow.com/questions/27701930/how-to-add-users-to-docker-container
+# https://medium.com/@diegohquintale/solve-permission-denied-error-while-using-a-dockerized-php-environment-7790df72fc62
+# https://stackoverflow.com/questions/48619445/permission-denied-error-using-laravel-docker
+# https://www.cakedc.com/jorge_gonzalez/2021/06/07/a-cakephp-docker-development-environment
+# https://github.com/cwbit/cakephp-docker
+# https://codingreflections.com/blog/php-development-environment-docker
+
+
+version: '3'
+# define all services
+services:
+  # The nginx service runs a web server to serve the PHP;
+  server:
+    image: 'nginx:1.21.6-alpine'
+    ports:
+      - '8000:80'
+    volumes:
+      - ./:/app/aulacakephp
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    container_name: aulacakephp-nginx
+    depends_on:
+      - php-fpm
+  # The php-fpm service is used by nginx to serve PHP;
+  php-fpm:
+    build:
+      context: ./
+      dockerfile: ./fpm.dockerfile
+    ports:
+      - '9000:9000'
+    container_name: aulacakephp-php-fpm
+    volumes:
+      - ./:/app/aulacakephp
+    depends_on:
+      - mysql
+  # The php service is used by us to run commands on PHP 
+  # (bin/cake, for instance since it is a cakephp application);
+  cakephp:
+    # we want to use the image which is build from our Dockerfile
+    build: .
+    ports:
+      - "8765:8765"
+    container_name: aulacakephp-cakephp
+    # we depending on the mysql backend
+    depends_on:
+      - mysql
+    # we mount the working dir into the container, handy for development 
+    volumes:
+      - .:/var/www/html/
+    environment:
+      - SECURITY_SALT=ashjg23697sds97139871298ashk  
+      - MYSQL_URL=mysql
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=root
+  mysql:
+    # we use the mysql base image, version 5.6.36
+    image: mysql:5.7
+    container_name: mysql
+    restart: no
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "aulacakephp"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
+    volumes:
+      - /home/allan/mysql/data:/var/lib/mysql
+volumes:
+    mysql_data:
