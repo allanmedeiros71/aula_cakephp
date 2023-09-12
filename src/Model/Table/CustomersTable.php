@@ -64,7 +64,7 @@ class CustomersTable extends Table
             ->requirePresence('Address')
             ->add('Address', 'validFormat', [
                 'rule' => 'email',
-                'message' => 'E-mail must be validx'
+                'message' => 'E-mail must be valid'
             ]);
         $validator
             ->scalar('City')
@@ -83,4 +83,5 @@ class CustomersTable extends Table
 
         return $validator;
     }
+
 }
