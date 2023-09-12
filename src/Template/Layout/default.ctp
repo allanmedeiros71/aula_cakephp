@@ -33,6 +33,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+    <script src="https://kit.fontawesome.com/086c04e082.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <nav class="top-bar expanded" data-topbar role="navigation">

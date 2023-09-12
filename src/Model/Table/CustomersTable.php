@@ -60,8 +60,12 @@ class CustomersTable extends Table
         $validator
             ->scalar('Address')
             ->maxLength('Address', 255)
-            ->allowEmptyString('Address');
-
+            // ->allowEmptyString('Address');
+            ->requirePresence('Address')
+            ->add('Address', 'validFormat', [
+                'rule' => 'email',
+                'message' => 'E-mail must be validx'
+            ]);
         $validator
             ->scalar('City')
             ->maxLength('City', 255)
