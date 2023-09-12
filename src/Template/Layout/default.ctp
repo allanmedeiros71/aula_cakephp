@@ -30,10 +30,16 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('style.css') ?>
 
+    <?= $this->Html->css('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css', 
+            ['rel'=>'stylesheet',
+             'integrity'=>'sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3',
+             'crossorigin'=>'anonymous']) ?>
+
+    <?= $this->Html->script('https://kit.fontawesome.com/086c04e082.js', ['crossorigin'=>'anonymous']) ?>
+
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
-    <script src="https://kit.fontawesome.com/086c04e082.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <nav class="top-bar expanded" data-topbar role="navigation">
@@ -55,5 +61,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </div>
     <footer>
     </footer>
+    <?= $this->Html->script('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js', 
+                ['crossorigin'=>'anonymous', 
+                'integrity'=>'sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p']) ?>
 </body>
 </html>

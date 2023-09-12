@@ -43,7 +43,6 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
     <?= $this->Html->css('style.css') ?>
     <?= $this->Html->css('home.css') ?>
     <link href="https://fonts.googleapis.com/css?family=Raleway:500i|Roboto:300,400,700|Roboto+Mono" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/086c04e082.js" crossorigin="anonymous"></script>
 </head>
 <body class="home">
 
