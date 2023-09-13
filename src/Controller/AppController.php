@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use \Cake\Controller\Component\AuthComponent;
 
 /**
  * Application Controller
@@ -51,5 +52,19 @@ class AppController extends Controller
          * see https://book.cakephp.org/3/en/controllers/components/security.html
          */
         //$this->loadComponent('Security');
+        $this->loadComponent('Auth', [
+            'authenticate'=>[
+                'Form'=>[
+                    'fields'=>['username'=>'email', 'password'=>'password'],
+                ]
+            ],
+            'loginAction' => ['controller'=>'users', 'action'=>'login'],
+            'loginRedirect' => ['controller'=>'users', 'action'=>'index'],
+            'logoutRedirect' => ['controller'=>'users', 'action'=>'logout'],
+
+        ]);
+        $this->Auth->setConfig('authenticate', [
+            AuthComponent::ALL=>['userModel'=>'users']
+        ]);
     }
 }

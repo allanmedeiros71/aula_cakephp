@@ -73,6 +73,9 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/transportadores', ['controller' => 'shippers', 'action' => 'index']);
     $routes->connect('/transportadores/:action/*', ['controller' => 'shippers']);
 
+    $routes->connect('/login', ['controller'=>'users', 'action'=>'login']);
+    $routes->connect('/logout', ['controller'=>'users', 'action'=>'logout']);
+
 
     /*
      * Connect catchall routes for all controllers.
