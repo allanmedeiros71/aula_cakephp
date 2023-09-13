@@ -50,24 +50,29 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->registerMiddleware('csrf', new CsrfProtectionMiddleware([
         'httpOnly' => true,
     ]));
-
+    
     /*
-     * Apply a middleware to the current route scope.
-     * Requires middleware to be registered through `Application::routes()` with `registerMiddleware()`
-     */
+    * Apply a middleware to the current route scope.
+    * Requires middleware to be registered through `Application::routes()` with `registerMiddleware()`
+    */
     $routes->applyMiddleware('csrf');
-
+    
     /*
-     * Here, we are connecting '/' (base path) to a controller called 'Pages',
-     * its action called 'display', and we pass a param to select the view file
-     * to use (in this case, src/Template/Pages/home.ctp)...
-     */
+    * Here, we are connecting '/' (base path) to a controller called 'Pages',
+    * its action called 'display', and we pass a param to select the view file
+    * to use (in this case, src/Template/Pages/home.ctp)...
+    */
     $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-
+    $routes->redirect('/google', 'http://google.com');
+    
     /*
      * ...and connect the rest of 'Pages' controller's URLs.
      */
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+
+    $routes->connect('/transportadores', ['controller' => 'shippers', 'action' => 'index']);
+    $routes->connect('/transportadores/:action/*', ['controller' => 'shippers']);
+
 
     /*
      * Connect catchall routes for all controllers.
@@ -88,6 +93,21 @@ Router::scope('/', function (RouteBuilder $routes) {
      * You can remove these routes once you've connected the
      * routes you want in your application.
      */
+    $routes->fallbacks(DashedRoute::class);
+});
+
+Router::scope('/produtos', function (RouteBuilder $routes) {
+
+
+    $routes->connect('/', ['controller'=>'products', 'action'=>'index']); // /produtos/
+    // Transforma   /produtos/4
+    // em           /produtos/view/4
+    $routes->connect(
+        '/:id',
+        ['controller' => 'products', 'action' => 'view'],
+        ['id' => '[0-9]+', 'pass'=>['id']],
+    );
+    $routes->connect('/:action/*', ['controller' => 'products']);
     $routes->fallbacks(DashedRoute::class);
 });
 
