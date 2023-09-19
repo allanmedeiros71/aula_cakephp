@@ -112,7 +112,7 @@ class UsersController extends AppController
             $dados = $this->request->getData();
             $user = $this->Users->find('all')
                 ->where(['email'=>$dados['email']])
-                ->where(['password'=>Security::hash($dados['password'],'sha256')])
+                ->where(['senha'=>Security::hash($dados['password'],'sha256')])
                 ->first();
             if ($user) {
                 $this->Auth->setUser($user);
