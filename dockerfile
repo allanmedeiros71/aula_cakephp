@@ -8,7 +8,8 @@ WORKDIR /var/www/html
 
 # Install dependencies
 RUN apt-get update && \
-    apt-get upgrade -y libicu-dev sudo
+    apt-get upgrade -y libicu-dev \
+    sudo git zip unzip
 
 # Install Composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
