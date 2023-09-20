@@ -49,13 +49,13 @@ class CustomersTable extends Table
 
         $validator
             ->scalar('CustomerName')
-            ->maxLength('CustomerName', 255)
-            ->allowEmptyString('CustomerName');
+            ->maxLength('CustomerName', 255);
 
         $validator
             ->scalar('ContactName')
             ->maxLength('ContactName', 255)
-            ->allowEmptyString('ContactName');
+            ->allowEmptyString('ContactName','zd', 'update')
+            ->minLength('ContactName', 3, __('Tamanho mínimo de 3 caracteres'));
 
         $validator
             ->scalar('Address')
@@ -79,6 +79,7 @@ class CustomersTable extends Table
         $validator
             ->scalar('Country')
             ->maxLength('Country', 255)
+            ->inList('Country', ['Brasil', 'França'], __('País não listado'))
             ->allowEmptyString('Country');
 
         return $validator;

@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\Product;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -33,6 +34,16 @@ class ProductsTable extends Table
         $this->setTable('products');
         $this->setDisplayField('ProductID');
         $this->setPrimaryKey('ProductID');
+
+        $this->belongsTo('suppliers', [
+            'joinType'=>'INNER',
+            'foreignKey'=> 'SupplierID'
+        ]);
+
+        $this->belongsTo('categories', [
+            'joinType'=>'INNER',
+            'foreignKey'=> 'CategoryID'
+        ]);
     }
 
     /**
@@ -67,8 +78,28 @@ class ProductsTable extends Table
 
         $validator
             ->decimal('Price')
+            ->greaterThan('Price', 0, 'Price must be greater than zero')
             ->allowEmptyString('Price');
 
         return $validator;
+    }
+
+    public function buildRules(RulesChecker $rules){
+        // parent::buildRules($rules);
+
+        $rules->add($rules->isUnique(['ProductName'],'Product Name already exists'));
+        $rules->add($rules->existsIn(['SupplierID'], 'suppliers','SupplierID must exists in supplier table'));
+        $rules->add($rules->existsIn(['CategoryID'], 'categories','CategotyID must exists in category table'));
+
+        // $rules->add(callable $rule, $name = null, array $options = []);
+        $rules->add(function(Product $entity){
+            return $entity->isDirty('Unit'); // O campo Unit não foi alterado 
+        },'verifica_produto', [
+            'errorField'=>'Unit',
+            'message'=>'Unit field must be changed'
+        ]);
+
+
+        return $rules;
     }
 }
